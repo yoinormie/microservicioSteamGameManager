@@ -1,10 +1,10 @@
 import express, { Request, Response } from 'express';
+import app from './config'
 
-const app = express();
 const port = 3000;
 
 app.get('/', (req: Request, res: Response) => {
     res.json({
-        message: "¡Hola desde el microservicio con Node.js y TypeScript!"
+        message: "Hola desde el microservicio de Steam"
     });
 });
