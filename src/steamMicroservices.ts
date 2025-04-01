@@ -1,9 +1,7 @@
-import express, { Request, Response } from 'express';
-import app from './config'
+import express = require('express');
+import app from './config';
 
-const port = 3000;
-
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req: express.Request, res: express.Response) => {
     res.json({
         message: "Hola desde el microservicio de Steam"
     });
