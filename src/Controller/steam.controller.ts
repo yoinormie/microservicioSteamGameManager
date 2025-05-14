@@ -2,7 +2,7 @@
  * Fichero donde se definen los endpoints de este microservicio.
  */
 import express = require('express');
-import app from './config';
+import app from '../Config/config';
 
 app.get('/', (req: express.Request, res: express.Response) => {
     res.json({
