@@ -47,14 +47,32 @@ async function getOwnedGames(steamid: string) {
 
 }
 
-async function makeAchievementsList(ownedGames:steamGame[], steamId:string) {
-    for(const game of ownedGames){
-        const response = axios.get('http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/',{
-            params:{
-               appid: game.getAppid(),
-               key: process.env.APIKEY
-
+async function makeAchievementsList(ownedGames: steamGame[], steamId: string) {
+    var achievementList : steamAchievement[]
+    var gamesPropety : gameProperty[] = []
+    for (const game of ownedGames) {
+        achievementList = []
+        const response = await axios.get('http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/', {
+            params: {
+                appid: game.getAppid(),
+                key: process.env.APIKEY,
+                steamid: steamId
             }
         })
+        for(const achievement of response.data.players.achievements){
+            const achieved = achievement.achieved == 1 ? true : false
+            achievementList.push(
+                new steamAchievement(
+                    achievement.apiname,
+                    achieved
+                )
+            )
+        }
+        gamesPropety.push(new gameProperty(
+            game.getAppid(),
+            steamId,
+            achievementList
+        ))
     }
+    return gamesPropety
 }
