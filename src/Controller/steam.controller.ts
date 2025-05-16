@@ -1,7 +1,7 @@
 /**
  * Fichero donde se definen los endpoints de este microservicio.
  */
-import express from 'express';
+import { Request, Response } from 'express';
 import { schemaGetUserStats, schemaGetUserSteamID, schemaMakeAchievementList } from '../Schemas/steam.schemas'
 import * as service from '../Services/steam.services'
 
