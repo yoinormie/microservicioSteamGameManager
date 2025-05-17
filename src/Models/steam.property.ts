@@ -1,4 +1,6 @@
-class gameProperty{
+import { steamAchievement } from "./steam.achievement";
+
+export class gameProperty{
     private appid : number
     private steamid : string
     private steamAchievements : steamAchievement[]

@@ -1,4 +1,4 @@
-class steamAchievement {
+export class steamAchievement {
     private name: string;
     private achieved: boolean;
 

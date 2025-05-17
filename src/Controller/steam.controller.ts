@@ -1,6 +1,7 @@
 /**
  * Fichero donde se definen los endpoints de este microservicio.
  */
+import { steamGame } from '../Models/steam.game';
 import { Request, Response } from 'express';
 import { schemaGetUserStats, schemaGetUserSteamID, schemaMakeAchievementList } from '../Schemas/steam.schemas'
 import * as service from '../Services/steam.services'
@@ -14,6 +15,7 @@ export const getUserWithSteamID = async (req: Request, res: Response) => {
         }
         var user = await service.getUserStats(data.steamID)
         //Llamada a spring a guardar al usuario
+        res.json(user)
     }
 }
 
@@ -23,6 +25,7 @@ export const getUserGames = async (req: Request, res: Response) => {
         var data = bodyParsed.data
         const userGames = service.getOwnedGames(data.steamID)
         //Llamada a guardar los juegos
+        res.json(userGames)
     }
 }
 
@@ -34,5 +37,6 @@ export const getAchievementsInGames = async (req: Request, res: Response) => {
         ); 
         var gameProperties = service.makeAchievementsList(gameList, bodyParsed.data.steamID)
         //Llamada a spring para guardar los logros
+        res.json(gameProperties)
     }
 }

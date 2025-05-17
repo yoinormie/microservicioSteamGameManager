@@ -1,4 +1,9 @@
 import axios from "axios";
+import {steamProfile} from '../Models/steam.profile';
+import { steamGame } from "../Models/steam.game";
+import { steamAchievement } from "../Models/steam.achievement";
+import { gameProperty } from "../Models/steam.property";
+
 
 export async function getIDFromCustomURL(customURL: string) : Promise<string>{
     const response = await axios.get('https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/', {

@@ -1,4 +1,4 @@
-class steamGame {
+export class steamGame {
   private appid: number;
   private name: string;
   private playtimeForever: number;
