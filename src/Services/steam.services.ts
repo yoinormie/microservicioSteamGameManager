@@ -39,13 +39,13 @@ export async function getOwnedGames(steamid: string) {
         }
     })
     const gameList = response.data.response.games ?? []
-    const ownedGames = gameList.map(async (game: any) => {
-        new steamGame(
-            game.appid,
-            game.name,
-            game.playtime_forever
-        )
-    })
+    const ownedGames : steamGame[] = await Promise.all(
+  gameList.map(async (game: any) => ({
+    appid: game.appid,
+    name: game.name,
+    playtimeForever: game.playtime_forever,
+  }))
+);
 
     return ownedGames
 

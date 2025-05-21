@@ -23,8 +23,7 @@ export const getUserGames = async (req: Request, res: Response) => {
     let bodyParsed = schemaGetUserStats.safeParse(req.body)
     if (bodyParsed.success) {
         var data = bodyParsed.data
-        const userGames = service.getOwnedGames(data.steamID)
-        //Llamada a guardar los juegos
+        const userGames = await service.getOwnedGames(data.steamID)
         res.json(userGames)
     }
 }
@@ -36,7 +35,6 @@ export const getAchievementsInGames = async (req: Request, res: Response) => {
             (game: any) => new steamGame(game.appid, game.name, game.playtimeForever)
         ); 
         var gameProperties = service.makeAchievementsList(gameList, bodyParsed.data.steamID)
-        //Llamada a spring para guardar los logros
         res.json(gameProperties)
     }
 }
