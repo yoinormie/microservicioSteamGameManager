@@ -1,4 +1,4 @@
-class steamProfile {
+export class steamProfile {
   private steamId: string;
   private personaName: string;
   private profileURL: string;

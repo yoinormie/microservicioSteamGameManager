@@ -1,4 +1,15 @@
 import axios from "axios";
+import {steamProfile} from '../Models/steam.profile';
+import { steamGame } from "../Models/steam.game";
+import { steamAchievement } from "../Models/steam.achievement";
+import { gameProperty } from "../Models/steam.property";
+
+
+/**
+ * 
+ * @param customURL id personalizado por el usuario de la cuenta de Steam
+ * @returns id de la cuenta (el que no es personalizado, utilizado para buscar internamente en la plataforma (y en las interfaces de la API))
+ */
 
 export async function getIDFromCustomURL(customURL: string) : Promise<string>{
     const response = await axios.get('https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/', {
@@ -11,6 +22,13 @@ export async function getIDFromCustomURL(customURL: string) : Promise<string>{
     return response.data.response.steamid as string
 
 }
+
+
+/**
+ * 
+ * @param steamId id del perfil de un usuario
+ * @returns un objeto con los datos de ese usuario
+ */
 
 export async function getUserStats(steamId: string) : Promise<steamProfile>{
     const response = await axios.get('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/', {
@@ -34,13 +52,13 @@ export async function getOwnedGames(steamid: string) {
         }
     })
     const gameList = response.data.response.games ?? []
-    const ownedGames = gameList.map(async (game: any) => {
-        new steamGame(
-            game.appid,
-            game.name,
-            game.playtime_forever
-        )
-    })
+    const ownedGames : steamGame[] = await Promise.all(
+  gameList.map(async (game: any) => ({
+    appid: game.appid,
+    name: game.name,
+    playtimeForever: game.playtime_forever,
+  }))
+);
 
     return ownedGames
 
