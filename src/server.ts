@@ -7,9 +7,6 @@ import dotenv from 'dotenv'
 dotenv.config()
 import app from "./Config/config"
 import route from "./Routes/steamRoutes"
-
-import app from "./Config/config"
-import route from "./Routes/steamRoutes"
 import './steamMicroservices'
 
 

@@ -2,7 +2,6 @@
  * Fichero donde se definen los endpoints de este microservicio.
  */
 import { steamGame } from '../Models/steam.game';
-=======
 import { Request, Response } from 'express';
 import { schemaGetUserStats, schemaGetUserSteamID, schemaMakeAchievementList } from '../Schemas/steam.schemas'
 import * as service from '../Services/steam.services'
@@ -26,7 +25,6 @@ export const getUserGames = async (req: Request, res: Response) => {
         var data = bodyParsed.data
         const userGames = await service.getOwnedGames(data.steamID)
         res.json(userGames)
-        const userGames = service.getOwnedGames(data.steamID)
         //Llamada a guardar los juegos
     }
 }
