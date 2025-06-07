@@ -41,67 +41,116 @@ STEAM_API_KEY= # Tu clave de la Steam Web API. Puedes obtenerla en https://steam
 
 ## Uso de la API
 
-### **POST /steam/searchuser**
+### **POST /getsteamiduser**
 
-Obtiene los datos de un usuario de Steam.
+Convierte una URL personalizada de Steam (Vanity URL) en un SteamID64 válido y devuelve información básica del usuario.
 
 **Body:**
 
 ```json
 {
-  "steamVanityUrl": "nombreDeUsuario"
+  "steamID": "nombrePersonalizado",
+  "isCustom": true
 }
 ```
 
-**Response:**
+**Funcionalidad:**
+
+- Si `isCustom` es `true`, se convierte la Vanity URL en un SteamID.
+- Se obtiene información del usuario usando su SteamID.
+- Devuelve un objeto con información básica del perfil de Steam.
+
+**Response esperado:**
 
 ```json
 {
-  "steamId": "7656119xxxxxxxxxx",
+  "steamid": "7656119xxxxxxxxxx",
   "personaName": "Nombre en Steam",
   "profileUrl": "https://steamcommunity.com/id/usuario/",
-  "avatar": "https://...",
-  "lastLogOff": "2024-06-06T12:34:56Z"
+  "realName": "Nombre Real",
+  "country": "US"
 }
 ```
 
 ---
 
-### **POST /steam/searchgames**
+### **POST /getuserslibrary**
 
-Obtiene los juegos jugados por un usuario (solo los jugados).
+Devuelve la lista de juegos que posee el usuario junto con su tiempo de juego total.
 
 **Body:**
 
 ```json
 {
-  "steamId": "7656119xxxxxxxxxx"
+  "steamID": "7656119xxxxxxxxxx"
 }
 ```
 
-**Response:**
+**Funcionalidad:**
+
+- Recupera todos los juegos que el usuario ha jugado o posee.
+- Incluye datos como nombre del juego, ID de la app, y minutos totales jugados.
+
+**Response esperado:**
 
 ```json
 [
   {
-    "appId": 730,
+    "appid": 730,
     "name": "Counter-Strike 2",
-    "playtimeHours": 120,
-    "lastPlayed": "2024-06-05T20:10:00Z",
-    "achievements": {
-      "total": 167,
-      "unlocked": 23
-    }
+    "playtimeForever": 1200
   },
   {
-    "appId": 570,
+    "appid": 570,
     "name": "Dota 2",
-    "playtimeHours": 540,
-    "lastPlayed": "2024-06-04T14:22:00Z",
-    "achievements": {
-      "total": 80,
-      "unlocked": 55
+    "playtimeForever": 3000
+  }
+]
+```
+
+---
+
+### **POST /makeachievementslist**
+
+Genera la lista de logros obtenidos por el usuario en cada uno de sus juegos.
+
+**Body:**
+
+```json
+{
+  "steamID": "7656119xxxxxxxxxx",
+  "ownedGames": [
+    {
+      "appid": 730,
+      "name": "Counter-Strike 2",
+      "playtimeForever": 1200
     }
+  ]
+}
+```
+
+**Funcionalidad:**
+
+- Por cada juego proporcionado, obtiene los logros asociados para el usuario.
+- Devuelve una estructura con los logros obtenidos y su estado (logrado o no).
+
+**Response esperado:**
+
+```json
+[
+  {
+    "appid": 730,
+    "steamid": "7656119xxxxxxxxxx",
+    "achievements": [
+      {
+        "apiName": "WIN_ONE_MATCH",
+        "achieved": true
+      },
+      {
+        "apiName": "HEADSHOT_KING",
+        "achieved": false
+      }
+    ]
   }
 ]
 ```
@@ -111,3 +160,4 @@ Obtiene los juegos jugados por un usuario (solo los jugados).
 ## Licencia
 
 Los detalles de la licencia de este software están en el archivo `LICENSE`.
+
